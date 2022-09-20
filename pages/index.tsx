@@ -148,6 +148,10 @@ export default function Homepage() {
           <button role="button" onClick={handleSubmit}>Submit</button>
         </div>
 
+        {loading ? (
+          <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        ) : null}
+
         {txtContentType === ContentTpe.JSON && txtResult ? (
           <div id="json-result">
             <JSONTree data={txtResult} theme={theme} invertTheme={false}
