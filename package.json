@@ -1,0 +1,27 @@
+{
+  "name": "cors-hijacker",
+  "private": false,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "next": "latest",
+    "node-fetch": "^3.2.10",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/node": "^18.7.18",
+    "@types/react": "^18.0.20",
+    "@types/react-dom": "^18.0.6",
+    "typescript": "^4.8.3"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "packageManager": "pnpm@7.5.1"
+}

@@ -1,2 +1,2 @@
-# cors-hijacker
-💀 CORS Hijacker
+# 💀 CORS Hijacker
+
