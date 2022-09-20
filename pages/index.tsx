@@ -139,10 +139,12 @@ export default function Homepage() {
           }} id="txt-headers" placeholder="Additional header, should be a valid JSON">
           </textarea>
 
-          <textarea value={txtBodyData} onChange={(e) => {
-            setTxtBodyData(e.target.value);
-          }} id="txt-data-body" placeholder="Additional data body, should be a valid JSON">
-          </textarea>
+          {txtMethod !== HttpMethod.GET ? (
+            <textarea value={txtBodyData} onChange={(e) => {
+              setTxtBodyData(e.target.value);
+            }} id="txt-data-body" placeholder="Additional data body, should be a valid JSON">
+            </textarea>
+          ) : null}
         </div>
         <div className="form-wrapper">
           <button role="button" onClick={handleSubmit}>Submit</button>
