@@ -39,7 +39,7 @@ Sample Request:
 ```ts
 const res = await fetch(
   `https://cors-hijacker.vercel.app/api?url=${encodeURIComponent(
-    'https://ksana.in/api/shield'
+    'https://ksana.in/api/ping'
   )}`,
   {
     headers: {
