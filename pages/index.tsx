@@ -54,37 +54,39 @@ export default function Homepage() {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    setLoading(true);
-    const headers = txtAdditionalHeaders ? jsonSafeParse(txtAdditionalHeaders) : {};
-    const body = txtBodyData ? jsonSafeParse(txtBodyData) : {};
+    if (!loading) {
+      setLoading(true);
+      const headers = txtAdditionalHeaders ? jsonSafeParse(txtAdditionalHeaders) : {};
+      const body = txtBodyData ? jsonSafeParse(txtBodyData) : {};
 
-    if (txtMethod === "GET") {
-      const res = await fetch(`/api?url=${encodeURIComponent(txtUrl)}`, {
-        headers: {
-          ...headers,
-          "Content-Type": txtContentType,
+      if (txtMethod === "GET") {
+        const res = await fetch(`/api?url=${encodeURIComponent(txtUrl)}`, {
+          headers: {
+            ...headers,
+            "Content-Type": txtContentType,
+          }
+        });
+        if (txtContentType === ContentTpe.JSON) {
+          const jsonText = await res.json();
+          setTxtResult(jsonText);
+        } else {
+          const htmlText = await res.text();
+          setTxtResult(htmlText);
         }
-      });
-      if (txtContentType === ContentTpe.JSON) {
+      } else {
+        const res = await fetch(`/api?url=${encodeURIComponent(txtUrl)}`, {
+          method: txtMethod,
+          headers: {
+            ...headers,
+            "Content-Type": ContentTpe.JSON,
+          },
+          body: JSON.stringify(body)
+        });
         const jsonText = await res.json();
         setTxtResult(jsonText);
-      } else {
-        const htmlText = await res.text();
-        setTxtResult(htmlText);
       }
-    } else {
-      const res = await fetch(`/api?url=${encodeURIComponent(txtUrl)}`, {
-        method: txtMethod,
-        headers: {
-          ...headers,
-          "Content-Type": ContentTpe.JSON,
-        },
-        body: JSON.stringify(body)
-      });
-      const jsonText = await res.json();
-      setTxtResult(jsonText);
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
@@ -147,7 +149,7 @@ export default function Homepage() {
           ) : null}
         </div>
         <div className="form-wrapper">
-          <button role="button" onClick={handleSubmit}>Submit</button>
+          <button role="button" disabled={loading} onClick={handleSubmit}>Submit</button>
         </div>
 
         {loading ? (
