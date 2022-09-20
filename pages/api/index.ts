@@ -34,55 +34,73 @@ export default async function handler(
 
   if (!url) {
     res.status(500);
+    console.error("[ERR_CODE]: 5001");
     res.json({
       success: false,
-      error: 'ERROR: Query param "url" is required!'
+      error: 'ERROR: Query param "url" is required!',
+      code: 5001,
     });
   }
 
-  const headers = req.headers;
+  const headers = Object.assign({}, req.headers);
+  delete headers.host;
+
   const contentType = headers["content-type"];
 
   const targetURL = decodeURIComponent(url as string);
+  const targetHeaders = {
+    ...headers,
+    referer: 'https://cors-hijacker.vercel.app/',
+    'cache-control': 'no-cache',
+    'accept-language': 'en-US,en;q=0.9',
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.53 Safari/537.36 Edg/103.0.1264.37',
+  }
 
   if (req.method === "GET") {
     try {
+      const isJsonRequest = contentType && contentType === "application/json";
+
       const remoteResponse = await fetch(targetURL, {
         // @ts-ignore
-        headers
+        headers: targetHeaders
       });
       res.status(remoteResponse.status);
 
-      if (contentType && contentType === "application/json") {
-        const remoteResponseBody = await remoteResponse.json()
-        res.json(remoteResponseBody);
+      if (isJsonRequest) {
+        const remoteResponseJson = await remoteResponse.json()
+        res.json(remoteResponseJson);
       } else {
         const remoteResponseBody = await remoteResponse.text()
         res.send(remoteResponseBody);
       }
     } catch (error) {
+      console.error("[ERR_CODE]: 5002");
       res.status(500);
       res.json({
         success: false,
         error: error,
+        code: 5002,
       });
     }
   } else {
     try {
       const remoteResponse = await fetch(targetURL, {
+        method: req.method,
         // @ts-ignore
-        headers,
+        headers: targetHeaders,
         body: JSON.stringify(req.body)
       })
       res.status(remoteResponse.status);
 
-      const remoteResponseBody = await remoteResponse.json()
-      res.send(remoteResponseBody);
+      const remoteResponseJson = await remoteResponse.json()
+      res.json(remoteResponseJson);
     } catch (error) {
+      console.error("[ERR_CODE]: 5003");
       res.status(500);
       res.json({
         success: false,
         error: error,
+        code: 5003,
       });
     }
   }
