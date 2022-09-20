@@ -1,0 +1,2 @@
+# cors-hijacker
+💀 CORS Hijacker
