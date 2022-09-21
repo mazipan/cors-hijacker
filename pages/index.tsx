@@ -128,7 +128,12 @@ ${codeRes}`;
       </Head>
       <div id="main">
         <h1>💀 CORS Hijacker</h1>
-        <h2 style={{ marginBottom: "3em" }}>A bare-minimum solution to solve CORS problem via proxy API</h2>
+        <h2>A bare-minimum solution to solve CORS problem via proxy API</h2>
+        <div style={{ marginBottom: "3em" }} >
+          <a href="https://github.com/mazipan/cors-hijacker" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/github/stars/mazipan/cors-hijacker.svg?style=social" alt="GitHub Stars" />
+          </a>
+        </div>
         <div className="form-wrapper">
           <div className="fieldset">
             <label htmlFor="txt-method">Method</label>
