@@ -112,6 +112,10 @@ button:hover {
   color: var(--absolute-text-color);
   padding: 1em;
 }
+.prism-code{
+  padding: 1em;
+  border-radius: 3px;
+}
 
 .lds-roller {
   display: inline-block;

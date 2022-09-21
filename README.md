@@ -1,6 +1,6 @@
 # 💀 CORS Hijacker
 
-A bare-minimum solution for by passing CORS via public API
+A bare-minimum solution to solve CORS problem via proxy API
 
 ## Base URL
 

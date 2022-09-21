@@ -1,4 +1,6 @@
 import Head from "next/head"
+import Highlight, { defaultProps } from "prism-react-renderer";
+import dracula from 'prism-react-renderer/themes/dracula';
 import { useState } from "react"
 import { JSONTree } from 'react-json-tree';
 
@@ -44,6 +46,8 @@ const jsonSafeParse = (str) => {
   }
 }
 
+const BASE_URL = "https://cors-hijacker.vercel.app";
+
 export default function Homepage() {
   const [txtUrl, setTxtUrl] = useState("https://ksana.in/api/ping");
   const [txtMethod, setTxtMethod] = useState(HttpMethod.GET);
@@ -51,11 +55,17 @@ export default function Homepage() {
   const [txtAdditionalHeaders, setTxtAdditionalHeaders] = useState("");
   const [txtBodyData, setTxtBodyData] = useState("");
   const [txtResult, setTxtResult] = useState(null);
+  const [txtCodeExample, setCodeExample] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const highlightCode = (code) => {
+    setCodeExample(code)
+  }
 
   const handleSubmit = async () => {
     if (!loading) {
       setLoading(true);
+      setCodeExample("");
       const headers = txtAdditionalHeaders ? jsonSafeParse(txtAdditionalHeaders) : {};
       const body = txtBodyData ? jsonSafeParse(txtBodyData) : {};
 
@@ -66,6 +76,26 @@ export default function Homepage() {
             "Content-Type": txtContentType,
           }
         });
+
+        const codeResultHtml = `const htmlText = await res.text();
+console.log(htmlText);`;
+        const codeResultJson = `const jsonRes = await res.json();
+console.log(jsonRes);`;
+        const codeRes = txtContentType === ContentTpe.JSON ? codeResultJson : codeResultHtml;
+        const code = `const BASE_URL = '${BASE_URL}';
+const targetUrl = \`\${encodeURIComponent("${txtUrl}")}\`;
+
+const fetchOptions = {
+  headers: {
+    "Content-Type": "${txtContentType}",
+  }
+}
+
+const res = await fetch(\`\${BASE_URL}/api?url=\${targetUrl}\`, fetchOptions);
+${codeRes}`;
+
+        highlightCode(code);
+
         if (txtContentType === ContentTpe.JSON) {
           const jsonText = await res.json();
           setTxtResult(jsonText);
@@ -93,12 +123,12 @@ export default function Homepage() {
     <>
       <Head>
         <title>CORS Hijacker | By Mazipan</title>
-        <meta name="description" content="A bare-minimum solution for by passing CORS via public API"></meta>
+        <meta name="description" content="A bare-minimum solution to solve CORS problem via proxy API"></meta>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💀</text></svg>"></link>
       </Head>
       <div id="main">
         <h1>💀 CORS Hijacker</h1>
-        <h2 style={{ marginBottom: "5em" }}>A bare-minimum solution for by passing CORS via public API</h2>
+        <h2 style={{ marginBottom: "3em" }}>A bare-minimum solution to solve CORS problem via proxy API</h2>
         <div className="form-wrapper">
           <div className="fieldset">
             <label htmlFor="txt-method">Method</label>
@@ -156,16 +186,42 @@ export default function Homepage() {
           <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         ) : null}
 
+        {txtResult && txtCodeExample ? (
+          <>
+            <h3 style={{ marginBottom: "0" }}>Code example:</h3>
+            <Highlight {...defaultProps} theme={dracula} code={txtCodeExample} language="javascript">
+              {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                <pre className={className} style={style}>
+                  {tokens.map((line, i) => (
+                    <div {...getLineProps({ line, key: i })}>
+                      {line.map((token, key) => (
+                        <span {...getTokenProps({ token, key })} />
+                      ))}
+                    </div>
+                  ))}
+                </pre>
+              )}
+            </Highlight>
+          </>
+        ) : null}
+
         {txtContentType === ContentTpe.JSON && txtResult ? (
-          <div id="json-result">
-            <JSONTree data={txtResult} theme={theme} invertTheme={false}
-            />
-          </div>
+          <>
+            <h3 style={{ marginBottom: "1em" }}>Result:</h3>
+            <div id="json-result">
+              <JSONTree data={txtResult} theme={theme} invertTheme={false}
+              />
+            </div>
+          </>
         ) : null}
 
         {txtContentType === ContentTpe.HTML && txtResult ? (
-          <textarea disabled id="html-result" defaultValue={txtResult}></textarea>
+          <>
+            <h3 style={{ marginBottom: "1em" }}>Result:</h3>
+            <textarea disabled id="html-result" defaultValue={txtResult}></textarea>
+          </>
         ) : null}
+
       </div>
     </>
   )
