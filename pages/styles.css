@@ -105,7 +105,6 @@ button:hover {
 #json-result > ul {
   padding: 1em !important;
   border-radius: 3px;
-  overflow-y: auto;
   width: 100%;
 }
 
@@ -113,14 +112,16 @@ button:hover {
   background-color: var(--absolute-bg-color);
   color: var(--absolute-text-color);
   padding: 1em;
-  overflow-y: auto;
   width: 100%;
 }
+
 .prism-code{
   padding: 1em;
-  border-radius: 3px;
-  overflow-y: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   width: 100%;
+  display: block;
+  min-height: 250px;
 }
 
 .lds-roller {
