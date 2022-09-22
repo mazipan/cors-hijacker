@@ -1,7 +1,7 @@
 :root {
   --text-color: #0a1521;
   --bg-color: #e0eaf5;
-  --accent-color: #f45d01;
+  --accent-color: rgba(239,68,68,1);
   --absolute-bg-color: #0a1521;
   --absolute-text-color: #e0eaf5;
   --input-bg-color: #ffffff;
@@ -15,6 +15,12 @@
   }
 }
 
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
 body {
   font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -22,15 +28,40 @@ body {
   background-color: var(--bg-color);
 }
 
-#main {
+#__root {
   width: 100%;
-  max-width: 800px;
   margin: 0 auto;
   height: 100vh;
   display: flex;
   align-items: stretch;
   flex-direction: column;
-  padding: 20px 20px;
+}
+
+.header {
+  position: relative;
+  padding-bottom: 2rem;
+  margin-bottom: 3rem;
+  background: rgb(167,139,250);
+background: linear-gradient(90deg, rgba(167,139,250,1) 0%, rgba(236,72,153,1) 35%, rgba(239,68,68,1) 100%);
+}
+
+.header-text{
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.main {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  min-height: 55vh;
+}
+
+.footer {
+  width: 100%;
+  background-color: var(--accent-color);
+  margin-top: 3em;
 }
 
 .form-wrapper {
@@ -123,6 +154,23 @@ button:hover {
   min-height: 250px;
 }
 
+
+.footer > ul {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 1em;
+  margin: 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.footer a {
+  font-weight: 700;
+  text-decoration: underline;
+  color: var(--absolute-text-color)
+}
+
 .lds-roller {
   display: inline-block;
   position: relative;
@@ -205,5 +253,59 @@ button:hover {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.waves {
+  position: absolute;
+  width: 100%;
+  height: 15vh;
+  margin-top: -100px;
+  /*Fix for safari gap*/
+  min-height: 100px;
+  max-height: 150px;
+}
+
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+  .waves {
+    height: 40px;
+    min-height: 40px;
+    margin-top: -40px;
+  }
+}
+
+/* Animation */
+.parallax>use {
+  animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
+}
+
+.parallax>use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+
+.parallax>use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+}
+
+.parallax>use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+
+.parallax>use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(85px, 0, 0);
   }
 }

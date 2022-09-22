@@ -52,7 +52,7 @@ export default function Homepage() {
   const [txtUrl, setTxtUrl] = useState("https://ksana.in/api/ping");
   const [txtMethod, setTxtMethod] = useState(HttpMethod.GET);
   const [txtContentType, setTxtContentType] = useState(ContentTpe.JSON);
-  const [txtAdditionalHeaders, setTxtAdditionalHeaders] = useState("");
+  const [txtAdditionalHeaders, setTxtAdditionalHeaders] = useState(`{ "Authorization": "some-token-here" }`);
   const [txtBodyData, setTxtBodyData] = useState("");
   const [txtResult, setTxtResult] = useState(null);
   const [txtCodeExample, setCodeExample] = useState(null);
@@ -77,6 +77,9 @@ export default function Homepage() {
           }
         });
 
+        const headerKeys = Object.keys(headers);
+        const headerCodes = headerKeys.map(key => `"${key}": "${headers[key]}"`);
+
         const codeResultHtml = `const htmlText = await res.text();
 console.log(htmlText);`;
         const codeResultJson = `const jsonRes = await res.json();
@@ -88,6 +91,7 @@ const targetUrl = \`\${encodeURIComponent("${txtUrl}")}\`;
 const fetchOptions = {
   headers: {
     "Content-Type": "${txtContentType}",
+    ${headerCodes.join(",\n    ")}
   }
 }
 
@@ -126,107 +130,135 @@ ${codeRes}`;
         <meta name="description" content="A bare-minimum solution to solve CORS problem via proxy API"></meta>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💀</text></svg>"></link>
       </Head>
-      <div id="main">
-        <h1>💀 CORS Hijacker</h1>
-        <h2>A bare-minimum solution to solve CORS problem via proxy API</h2>
-        <div style={{ marginBottom: "3em" }} >
-          <a href="https://github.com/mazipan/cors-hijacker" target="_blank" rel="noopener noreferrer">
-            <img src="https://img.shields.io/github/stars/mazipan/cors-hijacker.svg?style=social" alt="GitHub Stars" />
-          </a>
-        </div>
-        <div className="form-wrapper">
-          <div className="fieldset">
-            <label htmlFor="txt-method">Method</label>
-            <select id="txt-method" name="method" value={txtMethod} onChange={(e) => {
-              const val = e.target.value as HttpMethod;
-              if (val !== HttpMethod.GET) {
-                setTxtContentType(ContentTpe.JSON);
-              }
-              setTxtMethod(val);
-            }}>
-              <option value="GET">GET</option>
-              <option value="POST">POST</option>
-              <option value="PUT">PUT</option>
-              <option value="PATCH">PATCH</option>
-              <option value="DELETE">DELETE</option>
-            </select>
+      <div id="__root">
+        <header className="header">
+          <div className="header-text" style={{ marginBottom: "13em" }}>
+            <h1>💀 CORS Hijacker</h1>
+            <h2>A bare-minimum solution to solve CORS problem via proxy API</h2>
+            <div>
+              <a href="https://github.com/mazipan/cors-hijacker" target="_blank" rel="noopener noreferrer">
+                <img src="https://img.shields.io/github/stars/mazipan/cors-hijacker.svg?style=social" alt="GitHub Stars" />
+              </a>
+            </div>
           </div>
-          {txtMethod === HttpMethod.GET ? (
+          <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+              <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
+            </defs>
+            <g className="parallax">
+              <use xlinkHref="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"></use>
+              <use xlinkHref="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"></use>
+              <use xlinkHref="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"></use>
+              <use xlinkHref="#gentle-wave" x="48" y="7" fill="#fff"></use>
+            </g>
+          </svg>
+        </header>
+
+        <main className="main">
+          <div className="form-wrapper">
             <div className="fieldset">
-              <label htmlFor="txt-content-type">Content</label>
-              <select id="txt-content-type" name="content-type" value={txtContentType} onChange={(e) => {
-                setTxtResult("");
-                setTxtContentType(e.target.value as ContentTpe);
+              <label htmlFor="txt-method">Method</label>
+              <select id="txt-method" name="method" value={txtMethod} onChange={(e) => {
+                const val = e.target.value as HttpMethod;
+                if (val !== HttpMethod.GET) {
+                  setTxtContentType(ContentTpe.JSON);
+                }
+                setTxtMethod(val);
               }}>
-                <option value={ContentTpe.JSON}>JSON</option>
-                <option value={ContentTpe.HTML}>HTML</option>
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="PATCH">PATCH</option>
+                <option value="DELETE">DELETE</option>
               </select>
             </div>
-          ) : null}
-          <div className="fieldset">
-            <label htmlFor="txt-url">URL</label>
-            <input id="txt-url" type="url" placeholder="e.g: https://ksana.in/api/ping" value={txtUrl} onChange={(e) => {
-              setTxtUrl(e.target.value);
-            }} />
-          </div>
-        </div>
-        <div className="form-wrapper">
-          <textarea value={txtAdditionalHeaders} onChange={(e) => {
-            setTxtAdditionalHeaders(e.target.value);
-          }} id="txt-headers" placeholder="Additional header, should be a valid JSON">
-          </textarea>
-
-          {txtMethod !== HttpMethod.GET ? (
-            <textarea value={txtBodyData} onChange={(e) => {
-              setTxtBodyData(e.target.value);
-            }} id="txt-data-body" placeholder="Additional data body, should be a valid JSON">
-            </textarea>
-          ) : null}
-        </div>
-        <div className="form-wrapper">
-          <button role="button" disabled={loading} onClick={handleSubmit}>Submit</button>
-        </div>
-
-        {loading ? (
-          <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-        ) : null}
-
-        {txtResult && txtCodeExample ? (
-          <>
-            <h3 style={{ marginBottom: "0" }}>Code example:</h3>
-            <Highlight {...defaultProps} theme={dracula} code={txtCodeExample} language="javascript">
-              {({ className, style, tokens, getLineProps, getTokenProps }) => (
-                <pre className={className} style={style}>
-                  {tokens.map((line, i) => (
-                    <div {...getLineProps({ line, key: i })}>
-                      {line.map((token, key) => (
-                        <span {...getTokenProps({ token, key })} />
-                      ))}
-                    </div>
-                  ))}
-                </pre>
-              )}
-            </Highlight>
-          </>
-        ) : null}
-
-        {txtContentType === ContentTpe.JSON && txtResult ? (
-          <>
-            <h3 style={{ marginBottom: "1em" }}>Result:</h3>
-            <div id="json-result">
-              <JSONTree data={txtResult} theme={theme} invertTheme={false}
-              />
+            {txtMethod === HttpMethod.GET ? (
+              <div className="fieldset">
+                <label htmlFor="txt-content-type">Content</label>
+                <select id="txt-content-type" name="content-type" value={txtContentType} onChange={(e) => {
+                  setTxtResult("");
+                  setTxtContentType(e.target.value as ContentTpe);
+                }}>
+                  <option value={ContentTpe.JSON}>JSON</option>
+                  <option value={ContentTpe.HTML}>HTML</option>
+                </select>
+              </div>
+            ) : null}
+            <div className="fieldset">
+              <label htmlFor="txt-url">URL</label>
+              <input id="txt-url" type="url" placeholder="e.g: https://ksana.in/api/ping" value={txtUrl} onChange={(e) => {
+                setTxtUrl(e.target.value);
+              }} />
             </div>
-          </>
-        ) : null}
+          </div>
+          <div className="form-wrapper">
+            <textarea value={txtAdditionalHeaders} onChange={(e) => {
+              setTxtAdditionalHeaders(e.target.value);
+            }} id="txt-headers" placeholder="Additional header, should be a valid JSON">
+            </textarea>
 
-        {txtContentType === ContentTpe.HTML && txtResult ? (
-          <>
-            <h3 style={{ marginBottom: "1em" }}>Result:</h3>
-            <textarea disabled id="html-result" defaultValue={txtResult}></textarea>
-          </>
-        ) : null}
+            {txtMethod !== HttpMethod.GET ? (
+              <textarea value={txtBodyData} onChange={(e) => {
+                setTxtBodyData(e.target.value);
+              }} id="txt-data-body" placeholder="Additional data body, should be a valid JSON">
+              </textarea>
+            ) : null}
+          </div>
+          <div className="form-wrapper">
+            <button role="button" disabled={loading} onClick={handleSubmit}>Submit</button>
+          </div>
 
+          {loading ? (
+            <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          ) : null}
+
+          {txtResult && txtCodeExample ? (
+            <>
+              <h3 style={{ marginBottom: "0" }}>Code example:</h3>
+              <Highlight {...defaultProps} theme={dracula} code={txtCodeExample} language="javascript">
+                {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                  <pre className={className} style={style}>
+                    {tokens.map((line, i) => (
+                      <div {...getLineProps({ line, key: i })}>
+                        {line.map((token, key) => (
+                          <span {...getTokenProps({ token, key })} />
+                        ))}
+                      </div>
+                    ))}
+                  </pre>
+                )}
+              </Highlight>
+            </>
+          ) : null}
+
+          {txtContentType === ContentTpe.JSON && txtResult ? (
+            <>
+              <h3 style={{ marginBottom: "1em" }}>Result:</h3>
+              <div id="json-result">
+                <JSONTree data={txtResult} theme={theme} invertTheme={false}
+                />
+              </div>
+            </>
+          ) : null}
+
+          {txtContentType === ContentTpe.HTML && txtResult ? (
+            <>
+              <h3 style={{ marginBottom: "1em" }}>Result:</h3>
+              <textarea disabled id="html-result" defaultValue={txtResult}></textarea>
+            </>
+          ) : null}
+        </main>
+
+        <footer className="footer">
+          <ul>
+            <li>
+              Code by&nbsp;<a href="https://mazipan.space/" target="_blank" rel="noopenner noreferrer" className="font-bold">Irfan Maulana</a>
+            </li>
+            <li>
+              <a href="https://github.com/mazipan/cors-hijacker" target="_blank" rel="noopenner noreferrer" className="font-bold">GitHub</a>
+            </li>
+          </ul>
+        </footer>
       </div>
     </>
   )
