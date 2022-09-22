@@ -105,21 +105,20 @@ button:hover {
 #json-result > ul {
   padding: 1em !important;
   border-radius: 3px;
-  width: 100%;
+  width: 96%;
 }
 
 #html-result{
   background-color: var(--absolute-bg-color);
   color: var(--absolute-text-color);
   padding: 1em;
-  width: 100%;
+  width: 96%;
 }
 
 .prism-code{
   padding: 1em;
   overflow-x: auto;
-  overflow-y: hidden;
-  width: 100%;
+  width: 96%;
   display: block;
   min-height: 250px;
 }
