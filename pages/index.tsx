@@ -69,6 +69,18 @@ export default function Homepage() {
       const headers = txtAdditionalHeaders ? jsonSafeParse(txtAdditionalHeaders) : {};
       const body = txtBodyData ? jsonSafeParse(txtBodyData) : {};
 
+      const headerKeys = Object.keys(headers);
+      const headerCodes = headerKeys.map(key => `"${key}": "${headers[key]}"`);
+
+      const codeResultHtml = `const htmlText = await res.text();
+console.log(htmlText);`;
+      const codeResultJson = `const jsonRes = await res.json();
+console.log(jsonRes);`;
+      const codeRes = txtContentType === ContentTpe.JSON ? codeResultJson : codeResultHtml;
+      const codeBaseUri = `const BASE_URL = '${BASE_URL}';
+const targetUrl = \`\${encodeURIComponent("${txtUrl}")}\`;`
+
+
       if (txtMethod === "GET") {
         const res = await fetch(`/api?url=${encodeURIComponent(txtUrl)}`, {
           headers: {
@@ -77,23 +89,16 @@ export default function Homepage() {
           }
         });
 
-        const headerKeys = Object.keys(headers);
-        const headerCodes = headerKeys.map(key => `"${key}": "${headers[key]}"`);
+        const codeFetchOption = `
+        const fetchOptions = {
+          headers: {
+            "Content-Type": "${txtContentType}",
+            ${headerCodes.join(",\n    ")}
+          }
+        }`
 
-        const codeResultHtml = `const htmlText = await res.text();
-console.log(htmlText);`;
-        const codeResultJson = `const jsonRes = await res.json();
-console.log(jsonRes);`;
-        const codeRes = txtContentType === ContentTpe.JSON ? codeResultJson : codeResultHtml;
-        const code = `const BASE_URL = '${BASE_URL}';
-const targetUrl = \`\${encodeURIComponent("${txtUrl}")}\`;
-
-const fetchOptions = {
-  headers: {
-    "Content-Type": "${txtContentType}",
-    ${headerCodes.join(",\n    ")}
-  }
-}
+        const code = `${codeBaseUri}
+${codeFetchOption}
 
 const res = await fetch(\`\${BASE_URL}/api?url=\${targetUrl}\`, fetchOptions);
 ${codeRes}`;
@@ -108,6 +113,26 @@ ${codeRes}`;
           setTxtResult(htmlText);
         }
       } else {
+        const bodyKeys = Object.keys(body);
+        const bodyCodes = bodyKeys.map(key => `"${key}": "${body[key]}"`);
+        const bodyDataCodes = bodyCodes.length > 0 ? `\n  body: JSON.stringify({
+    ${bodyCodes.join(",\n    ")}
+  })` : "";
+        const codeFetchOption = `
+const fetchOptions = {
+  method: "${txtMethod}",
+  headers: {
+    "Content-Type": "${txtContentType}",
+    ${headerCodes.join(",\n    ")}
+  },${bodyDataCodes}
+}`
+        const code = `${codeBaseUri}
+${codeFetchOption}
+
+const res = await fetch(\`\${BASE_URL}/api?url=\${targetUrl}\`, fetchOptions);
+${codeRes}`;
+
+        highlightCode(code);
         const res = await fetch(`/api?url=${encodeURIComponent(txtUrl)}`, {
           method: txtMethod,
           headers: {
