@@ -132,7 +132,7 @@ ${codeRes}`;
       </Head>
       <div id="__root">
         <header className="header">
-          <div className="header-text" style={{ marginBottom: "13em" }}>
+          <div className="header-text">
             <h1>💀 CORS Hijacker</h1>
             <h2>A bare-minimum solution to solve CORS problem via proxy API</h2>
             <div>
@@ -141,10 +141,11 @@ ${codeRes}`;
               </a>
             </div>
           </div>
-          
+
         </header>
 
         <main className="main">
+          <h2>🛝 Playground</h2>
           <div className="form-wrapper">
             <div className="fieldset">
               <label htmlFor="txt-method">Method</label>

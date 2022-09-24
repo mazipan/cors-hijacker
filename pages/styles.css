@@ -1,16 +1,14 @@
 :root {
   --text-color: #0a1521;
-  --bg-color: #e0eaf5;
+  --bg-color: #ffffff;
   --accent-color: rgba(239,68,68,1);
-  --absolute-bg-color: #0a1521;
-  --absolute-text-color: #e0eaf5;
   --input-bg-color: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #0a1521;
-    --text-color: #e0eaf5;
+    --bg-color: #120101;
+    --text-color: #ffffff;
     --input-bg-color: #e0eaf5;
   }
 }
@@ -39,8 +37,7 @@ body {
 
 .header {
   position: relative;
-  padding-bottom: 2rem;
-  margin-bottom: 3rem;
+  padding: 5rem 1em;
   background: rgb(167,139,250);
 background: linear-gradient(90deg, rgba(167,139,250,1) 0%, rgba(236,72,153,1) 35%, rgba(239,68,68,1) 100%);
 }
@@ -49,12 +46,13 @@ background: linear-gradient(90deg, rgba(167,139,250,1) 0%, rgba(236,72,153,1) 35
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .main {
-  width: 100%;
+  width: 95%;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 2em auto;
   min-height: 55vh;
 }
 
@@ -66,12 +64,14 @@ background: linear-gradient(90deg, rgba(167,139,250,1) 0%, rgba(236,72,153,1) 35
 
 .form-wrapper {
   display: flex;
+  flex-wrap: wrap;
   gap: .5em;
   margin-bottom: .5em;
 }
 
 .fieldset {
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   gap: .5em;
 }
@@ -80,30 +80,32 @@ select {
   padding: 15px 7px;
   font-size: 1rem;
   border-radius: .25em;
+  border: 2px solid hsl(211, 51%, 72%);
 }
 
 input {
-  height: 30px;
   font-size: 1rem;
-  padding: 10px 7px;
+  padding: 15px 7px;
   flex-grow: 1;
-  border: 1px solid hsl(211, 51%, 72%);
+  border: 2px solid hsl(211, 51%, 72%);
   border-radius: .25em;
   background-color: var(--input-bg-color);
-}
-
-input:focus {
-  outline: none;
-  border-color: var(--accent-color);
 }
 
 textarea {
   font-size: 1rem;
   padding: 10px 7px;
   flex-grow: 1;
-  border: 1px solid hsl(211, 51%, 72%);
+  border: 2px solid hsl(211, 51%, 72%);
   border-radius: .25em;
   background-color: var(--input-bg-color);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border: 2px solid var(--accent-color);
 }
 
 @media only screen and (min-width: 640px) {
@@ -140,8 +142,7 @@ button:hover {
 }
 
 #html-result{
-  background-color: var(--absolute-bg-color);
-  color: var(--absolute-text-color);
+  background-color: var(--input-bg-color);
   padding: 1em;
   width: 96%;
 }
@@ -168,7 +169,7 @@ button:hover {
 .footer a {
   font-weight: 700;
   text-decoration: underline;
-  color: var(--absolute-text-color)
+  color: var(--text-color);
 }
 
 .lds-roller {
@@ -253,59 +254,5 @@ button:hover {
   }
   100% {
     transform: rotate(360deg);
-  }
-}
-
-.waves {
-  position: absolute;
-  width: 100%;
-  height: 15vh;
-  margin-top: -100px;
-  /*Fix for safari gap*/
-  min-height: 100px;
-  max-height: 150px;
-}
-
-/*Shrinking for mobile*/
-@media (max-width: 768px) {
-  .waves {
-    height: 40px;
-    min-height: 40px;
-    margin-top: -40px;
-  }
-}
-
-/* Animation */
-.parallax>use {
-  animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
-}
-
-.parallax>use:nth-child(1) {
-  animation-delay: -2s;
-  animation-duration: 7s;
-}
-
-.parallax>use:nth-child(2) {
-  animation-delay: -3s;
-  animation-duration: 10s;
-}
-
-.parallax>use:nth-child(3) {
-  animation-delay: -4s;
-  animation-duration: 13s;
-}
-
-.parallax>use:nth-child(4) {
-  animation-delay: -5s;
-  animation-duration: 20s;
-}
-
-@keyframes move-forever {
-  0% {
-    transform: translate3d(-90px, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(85px, 0, 0);
   }
 }
