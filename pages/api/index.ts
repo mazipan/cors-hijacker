@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Cors from 'cors';
 import fetch from 'node-fetch';
+import { hitSuccessCounter, hitErrorCounter } from "./_utils"
 
 // Initializing the cors middleware
 // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
@@ -33,6 +34,7 @@ export default async function handler(
   const { url, } = req.query
 
   if (!url) {
+    hitErrorCounter();
     res.status(500);
     console.error("[ERR_CODE]: 5001");
     res.json({
@@ -67,13 +69,14 @@ export default async function handler(
       res.status(remoteResponse.status);
 
       if (isJsonRequest) {
-        const remoteResponseJson = await remoteResponse.json()
+        const remoteResponseJson = await remoteResponse.json();hitSuccessCounter();
         res.json(remoteResponseJson);
       } else {
-        const remoteResponseBody = await remoteResponse.text()
+        const remoteResponseBody = await remoteResponse.text();hitSuccessCounter();
         res.send(remoteResponseBody);
       }
     } catch (error) {
+      hitErrorCounter();
       console.error("[ERR_CODE]: 5002");
       res.status(500);
       res.json({
@@ -92,9 +95,10 @@ export default async function handler(
       })
       res.status(remoteResponse.status);
 
-      const remoteResponseJson = await remoteResponse.json()
+      const remoteResponseJson = await remoteResponse.json();hitSuccessCounter();
       res.json(remoteResponseJson);
     } catch (error) {
+      hitErrorCounter();
       console.error("[ERR_CODE]: 5003");
       res.status(500);
       res.json({

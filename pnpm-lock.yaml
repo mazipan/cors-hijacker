@@ -2,8 +2,8 @@ lockfileVersion: 5.4
 
 specifiers:
   '@types/cors': ^2.8.12
-  '@types/node': ^18.7.18
-  '@types/react': ^18.0.20
+  '@types/node': ^18.7.21
+  '@types/react': ^18.0.21
   '@types/react-dom': ^18.0.6
   cors: ^2.8.5
   next: latest
@@ -23,12 +23,12 @@ dependencies:
   prism-react-renderer: 1.3.5_react@18.2.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  react-json-tree: 0.17.0_w5j4k42lgipnm43s3brx6h3c34
+  react-json-tree: 0.17.0_iapumuv4e6jcjznwuxpf4tt22e
 
 devDependencies:
   '@types/cors': 2.8.12
-  '@types/node': 18.7.18
-  '@types/react': 18.0.20
+  '@types/node': 18.7.21
+  '@types/react': 18.0.21
   '@types/react-dom': 18.0.6
   typescript: 4.8.3
 
@@ -180,8 +180,8 @@ packages:
     resolution: {integrity: sha512-evMDG1bC4rgQg4ku9tKpuMh5iBNEwNa3tf9zRHdP1qlv+1WUg44xat4IxCE14gIpZRGUUWAx2VhItCZc25NfMA==}
     dev: false
 
-  /@types/node/18.7.18:
-    resolution: {integrity: sha512-m+6nTEOadJZuTPkKR/SYK3A2d7FZrgElol9UP1Kae90VVU4a6mxnPuLiIW1m4Cq4gZ/nWb9GrdVXJCoCazDAbg==}
+  /@types/node/18.7.21:
+    resolution: {integrity: sha512-rLFzK5bhM0YPyCoTC8bolBjMk7bwnZ8qeZUBslBfjZQou2ssJdWslx9CZ8DGM+Dx7QXQiiTVZ/6QO6kwtHkZCA==}
     dev: true
 
   /@types/prop-types/15.7.5:
@@ -190,11 +190,11 @@ packages:
   /@types/react-dom/18.0.6:
     resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
     dependencies:
-      '@types/react': 18.0.20
+      '@types/react': 18.0.21
     dev: true
 
-  /@types/react/18.0.20:
-    resolution: {integrity: sha512-MWul1teSPxujEHVwZl4a5HxQ9vVNsjTchVA+xRqv/VYGCuKGAU6UhfrTdF5aBefwD1BHUD8i/zq+O/vyCm/FrA==}
+  /@types/react/18.0.21:
+    resolution: {integrity: sha512-7QUCOxvFgnD5Jk8ZKlUAhVcRj7GuJRjnjjiY/IUBWKgOlnvDvTMLD4RTF7NPyVmbRhNrbomZiOepg7M/2Kj1mA==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
@@ -418,7 +418,7 @@ packages:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
 
-  /react-json-tree/0.17.0_w5j4k42lgipnm43s3brx6h3c34:
+  /react-json-tree/0.17.0_iapumuv4e6jcjznwuxpf4tt22e:
     resolution: {integrity: sha512-hcWjibI/fAvsKnfYk+lka5OrE1Lvb1jH5pSnFhIU5T8cCCxB85r6h/NOzDPggSSgErjmx4rl3+2EkeclIKBOhg==}
     peerDependencies:
       '@types/react': ^16.3.0 || ^17.0.0 || ^18.0.0
@@ -427,7 +427,7 @@ packages:
       '@babel/runtime': 7.19.0
       '@types/lodash': 4.14.185
       '@types/prop-types': 15.7.5
-      '@types/react': 18.0.20
+      '@types/react': 18.0.21
       prop-types: 15.8.1
       react: 18.2.0
       react-base16-styling: 0.9.1
