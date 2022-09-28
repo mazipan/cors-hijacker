@@ -1,6 +1,6 @@
 # 💀 CORS Hijacker
 
-A bare-minimum solution to solve CORS problem via proxy API
+A bare-minimum solution to solve [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) problem via proxy API
 
 ![](https://img.shields.io/badge/PRs-welcome-brightgreen.svg) ![](https://img.shields.io/website-up-down-brightgreen-red/https/cors-hijacker.vercel.app.svg) ![](https://img.shields.io/endpoint?url=https%3A%2F%2Fcors-hijacker.vercel.app%2Fapi%2Fbadge)
 
