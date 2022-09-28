@@ -83,7 +83,8 @@ const jsonResponse = await res.json();
 ```
 ## Limitations
 
-- Not support `Form` submission
+- Not support `Form` submission.
+- Use free-tier server from Vercel, not reliable for high traffic.
 
 ## Credits
 
