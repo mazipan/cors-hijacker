@@ -45,7 +45,7 @@ export default async function handler(
   }
 
   const headers = Object.assign({}, req.headers);
-  delete headers.host;
+  // delete headers.host;
 
   const contentType = headers["content-type"];
 
