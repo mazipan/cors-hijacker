@@ -84,6 +84,7 @@ const jsonResponse = await res.json();
 ## Limitations
 
 - Not support `Form` submission.
+- Removing the origin `host` header ([see on index.ts#L48](https://github.com/mazipan/cors-hijacker/blob/master/pages/api/index.ts#L48))
 - Use free-tier server from Vercel, not reliable for high traffic.
 
 ## Credits
