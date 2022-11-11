@@ -39,7 +39,7 @@ body {
   position: relative;
   padding: 5rem 1em;
   background: rgb(167,139,250);
-background: linear-gradient(90deg, rgba(167,139,250,1) 0%, rgba(236,72,153,1) 35%, rgba(239,68,68,1) 100%);
+  background: linear-gradient(90deg, rgba(167,139,250,1) 0%, rgba(236,72,153,1) 35%, rgba(239,68,68,1) 100%);
 }
 
 .header-text{
@@ -52,6 +52,7 @@ background: linear-gradient(90deg, rgba(167,139,250,1) 0%, rgba(236,72,153,1) 35
 .main {
   width: 95%;
   max-width: 800px;
+  min-height: 45vh;
   margin: 2em auto;
 }
 
